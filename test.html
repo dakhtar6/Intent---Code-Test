@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Porty ✈️</title>
+  <meta name="viewport" content="width=device-width" charset="utf-8"/>
+</head>
+<link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+<style type="text/css">
+  html {
+    color: #003366; 
+    background-color: #f2f2f2;
+    font-family: 'Sofia', arial; 
+    width: 100%;
+    height: 100%;
+    background-image: url('./airplane_moving.gif');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    text-align: center; 
+    margin: auto; 
+  }
+  section h1, h2, button, #to, #from {
+    margin: auto;
+  }
+  button {
+    font-weight: bold; 
+    background-color: #ccccff;
+    border: none;
+    border-radius: 2rem;
+  }
+  .control {
+    font-weight: bold; 
+  }
+  /*OPTIMIZED FOR DESKTOP*/
+  @media screen and (min-width: 1080px) {
+    h1 {
+      font-size: 3rem;
+      width: 17rem;
+    }
+    h2 {
+      font-size: 2rem;
+      width: 51rem;
+    }
+    span {
+      font-size: 1.5rem; 
+      margin-right: 1rem;
+    }
+    select {
+      font-size: 1.5rem;
+    }
+    option {
+      font-size: 1.5rem; 
+    }
+    button {
+      font-size: 1.25rem;
+      padding: 1rem;
+      margin: 1rem;
+    }
+    #from-control {
+      left: 24rem;
+      top: 9rem;
+    }
+    #to-control {
+      left: 24rem;
+      top: 12rem;
+    }
+    #result {
+      font-size: 4rem; 
+      width: 50rem;
+      margin: 12rem auto; 
+    }
+  }
+  /*OPTIMIZED FOR TABLETS*/
+  @media screen and (min-width:768px) and (max-width:1024px) {
+    html {
+      width: 48rem;
+      height: 64rem; 
+    }
+    h1 {
+      font-size: 3rem;
+      width: 17rem;
+    }
+    h2 {
+      font-size: 2rem;
+      width: 38rem;
+    }
+    span {
+      font-size: 2rem; 
+      margin-right: 1rem; 
+    }
+    select {
+      font-size: 2rem;
+    }
+    option {
+      font-size: 1rem; 
+    }
+    button {
+      font-size: 2rem; 
+      padding: 1.5rem;
+      width: 15rem; 
+      margin: 1rem auto;  
+    }
+    #result {
+      font-size: 6rem; 
+      width: 50rem;
+      margin: auto; 
+      margin-top: 26rem; 
+    }
+  }
+  /*OPTIMIZED FOR MOBILE*/
+  @media screen and (max-width: 500px) {
+     html {
+      width: 50rem;
+      height: 90rem; 
+    }
+    h1 {
+      font-size: 5rem;
+      width: 17rem;
+    }
+    h2 {
+      font-size: 3rem;
+      width: 33rem;
+    }
+    span {
+      font-size: 3rem; 
+      margin-right: 1rem; 
+    }
+    select {
+      font-size: 3rem;
+    }
+    option {
+      font-size: 1rem; 
+    }
+    button {
+      font-size: 2rem; 
+      padding: 1.5rem;
+      width: 15rem; 
+      margin: 2rem auto;  
+    }
+    #result {
+      font-size: 6rem; 
+      width: 50rem;
+      margin: auto; 
+      margin-top: 38rem; 
+    }
+  }
+</style>
+<body>
+  <section>
+    <h1>PORTY</h1>
+    <h2>The Airport Distance Measuring Tool</h2>
+    <div id="from-control" class="control">
+      <span class="caption">FROM</span>
+      <select id="from">
+        <!--<option value="JFK">JFK</option>
+        <option value="LAX">LAX</option>
+        <option value="LAS">LAS</option>
+        <option value="PDX">PDX</option> -->
+      </select>
+    </div>
+    <div id="to-control" class="control">
+      <span class="caption">TO</span>
+      <select id="to">
+        <!--<option value="JFK">JFK</option>
+        <option value="LAX" selected>LAX</option>
+        <option value="LAS">LAS</option>
+        <option value="PDX">PDX</option> -->
+      </select>
+    </div>
+    <button onclick="calcDistance()">CALCULATE DISTANCE</button>
+    <div id="result"></div>
+  </section>
+  <script type="text/javascript">
+    //stock code
+    var IntentMedia = IntentMedia || {};
+
+    IntentMedia.Airports = (function () {
+        var pub = {};
+
+        pub.airport_exists = function (airport_code) {
+          return pub.airport_distances().hasOwnProperty(airport_code);
+        };
+
+        pub.airport_distances = function () {
+          return {
+            JFK: {LAX: 2475, LAS: 2248, PDX: 2454},
+            LAX: {JFK: 2475, LAS: 236, PDX: 834},
+            LAS: {JFK: 2248, LAX: 236, PDX: 763},
+            PDX: {JFK: 2454, LAS: 763, LAX: 834}
+          }
+        };
+        pub.airports = function () {
+          return ['JFK', 'LAS', 'LAX', 'PDX'];
+        };
+        return pub;
+    }(IntentMedia || {}));
+
+    IntentMedia.Distances = (function () {
+        var pub = {};
+        var airport_distances = airport_distances || IntentMedia.Airports.airport_distances();
+
+        pub.distance_between_airports = function (from_airport, to_airport) {
+          if (IntentMedia.Airports.airport_exists(from_airport) && IntentMedia.Airports.airport_exists(to_airport)) {
+            if (from_airport === to_airport) {
+              return 0;
+            }
+
+            return airport_distances[from_airport][to_airport];
+          }
+
+          return -1;
+        };
+
+        return pub;
+    }(IntentMedia || {}));
+
+    //my code
+    var result = document.getElementById('result'); 
+    var pub = IntentMedia.Distances; 
+    var calcDistance = function() {
+      var fromValue = document.getElementById('from').value; 
+      var toValue = document.getElementById('to').value;
+      if(fromValue === toValue) {
+        alert('Your "To" and "From" values must be different!'); 
+      }
+      else {
+        var answer = pub.distance_between_airports(fromValue, toValue); 
+        result.innerHTML = answer + " miles";
+      }
+    }
+    //return dynamic data to populate inputs
+    var airports = IntentMedia.Airports.airports(); 
+    var from = document.querySelector('#from');
+    var to = document.querySelector('#to');
+  
+    function doer(airport) {
+      var option = document.createElement('option'); 
+      var option2 = document.createElement('option'); 
+      option.innerHTML = airport; 
+      option.value = airport; 
+      option2 = option.cloneNode(true); 
+      from.appendChild(option);
+      to.appendChild(option2); 
+    }
+    airports.forEach(doer); 
+  </script>
+</body> 
+</html>
