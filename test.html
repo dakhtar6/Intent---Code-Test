@@ -151,19 +151,11 @@
     <div id="from-control" class="control">
       <span class="caption">FROM</span>
       <select id="from">
-        <!--<option value="JFK">JFK</option>
-        <option value="LAX">LAX</option>
-        <option value="LAS">LAS</option>
-        <option value="PDX">PDX</option> -->
       </select>
     </div>
     <div id="to-control" class="control">
       <span class="caption">TO</span>
       <select id="to">
-        <!--<option value="JFK">JFK</option>
-        <option value="LAX" selected>LAX</option>
-        <option value="LAS">LAS</option>
-        <option value="PDX">PDX</option> -->
       </select>
     </div>
     <button onclick="calcDistance()">CALCULATE DISTANCE</button>
@@ -216,7 +208,7 @@
     //my code
     var result = document.getElementById('result'); 
     var pub = IntentMedia.Distances; 
-    var calcDistance = function() {
+    var calcDistance = function(event) {
       var fromValue = document.getElementById('from').value; 
       var toValue = document.getElementById('to').value;
       if(fromValue === toValue) {
